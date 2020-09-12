@@ -1,4 +1,5 @@
 from kfp import dsl
+
 def preprocess_op():
 
     return dsl.ContainerOp(
@@ -6,6 +7,6 @@ def preprocess_op():
         image='gnovack/mnist_pipeline_preprocessing:latest',
         arguments=[],
         file_outputs={
-            'x_train': 'x_train.npy',
+            'output': 'output.txt',
         }
     )
