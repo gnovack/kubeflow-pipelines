@@ -7,6 +7,6 @@ def preprocess_op():
         image='gnovack/mnist_pipeline_preprocessing:latest',
         arguments=[],
         file_outputs={
-            'output': 'output.txt',
+            'output': '/app/output.txt',
         }
     )
