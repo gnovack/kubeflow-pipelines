@@ -4,6 +4,6 @@ WORKDIR /app
 
 RUN pip install -U scikit-learn numpy
 
-COPY main.py ./main.py
+COPY preprocess.py ./preprocess.py
 
-ENTRYPOINT [ "python", "main.py" ]
+ENTRYPOINT [ "python", "preprocess.py" ]

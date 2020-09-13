@@ -1,7 +1,16 @@
 import kfp
 from kfp import dsl
 
-from preprocess_data.component import preprocess_op
+def preprocess_op():
+
+    return dsl.ContainerOp(
+        name='Preprocess Data',
+        image='gnovack/mnist_pipeline_preprocessing:latest',
+        arguments=[],
+        file_outputs={
+            'X': '/app/X.npy',
+        }
+    )
 
 @dsl.pipeline(
    name='MNIST Pipeline',
