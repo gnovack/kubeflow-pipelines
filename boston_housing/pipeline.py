@@ -28,7 +28,7 @@ def train_op(x_train):
 )
 def boston_pipeline():
     preprocess_task = preprocess_op()
-    train_op(preprocess_task.outputs['x_train']).after(preprocess_task)
+    train_op(dsl.InputArgumentPath(preprocess_task.output)).after(preprocess_task)
 
 client = kfp.Client()
 #Specify pipeline argument values
