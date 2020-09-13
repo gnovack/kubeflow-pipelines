@@ -17,9 +17,7 @@ def preprocess_op():
 
 def train_op(
     x_train,
-    x_test,
-    y_train,
-    y_test
+    y_train
 ):
 
     return dsl.ContainerOp(
@@ -27,9 +25,7 @@ def train_op(
         image='gnovack/boston_pipeline_train:latest',
         arguments=[
             '--x_train', x_train,
-            '--x_test', x_test,
-            '--y_train', y_train,
-            '--y_train', y_test
+            '--y_train', y_train
         ]
     )
 
@@ -38,17 +34,12 @@ def train_op(
    description='A toy pipeline that performs arithmetic calculations.'
 )
 def boston_pipeline():
-    preprocess_task = preprocess_op()
+    _preprocess_op = preprocess_op()
     
     train_op(
-        dsl.InputArgumentPath(preprocess_task.outputs['x_train']),
-        dsl.InputArgumentPath(preprocess_task.outputs['x_test']),
-        dsl.InputArgumentPath(preprocess_task.outputs['y_train']),
-        dsl.InputArgumentPath(preprocess_task.outputs['y_test'])
-    ).after(preprocess_task)
+        dsl.InputArgumentPath(_preprocess_op.outputs['x_train']),
+        dsl.InputArgumentPath(_preprocess_op.outputs['y_train'])
+    ).after(_preprocess_op)
 
 client = kfp.Client()
-#Specify pipeline argument values
-arguments = {} 
-#Submit a pipeline run
-client.create_run_from_pipeline_func(boston_pipeline, arguments=arguments)
+client.create_run_from_pipeline_func(boston_pipeline)
