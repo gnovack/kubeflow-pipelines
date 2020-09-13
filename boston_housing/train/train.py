@@ -1,6 +1,6 @@
 import argparse
 import numpy as np
-from sklean.linear_model import SGDRegressor
+from sklearn.linear_model import SGDRegressor
 
 def train_model(x_train, y_train):
     x_train_data = np.load(x_train)

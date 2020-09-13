@@ -42,4 +42,4 @@ def boston_pipeline():
     ).after(_preprocess_op)
 
 client = kfp.Client()
-client.create_run_from_pipeline_func(boston_pipeline)
+client.create_run_from_pipeline_func(boston_pipeline, arguments={})
