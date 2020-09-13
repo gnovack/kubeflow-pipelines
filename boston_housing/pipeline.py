@@ -8,17 +8,28 @@ def preprocess_op():
         image='gnovack/boston_pipeline_preprocessing:latest',
         arguments=[],
         file_outputs={
-            'x_train': '/app/X.npy',
+            'x_train': '/app/x_train.npy',
+            'x_test': '/app/x_test.npy',
+            'y_train': '/app/y_train.npy',
+            'y_test': '/app/y_test.npy',
         }
     )
 
-def train_op(x_train):
+def train_op(
+    x_train,
+    x_test,
+    y_train,
+    y_test
+):
 
     return dsl.ContainerOp(
         name='Train Model',
         image='gnovack/boston_pipeline_train:latest',
         arguments=[
-            '--x_train', x_train
+            '--x_train', x_train,
+            '--x_test', x_test,
+            '--y_train', y_train,
+            '--y_train', y_test
         ]
     )
 
@@ -28,7 +39,13 @@ def train_op(x_train):
 )
 def boston_pipeline():
     preprocess_task = preprocess_op()
-    train_op(dsl.InputArgumentPath(preprocess_task.output)).after(preprocess_task)
+    
+    train_op(
+        dsl.InputArgumentPath(preprocess_task.outputs['x_train']),
+        dsl.InputArgumentPath(preprocess_task.outputs['x_test']),
+        dsl.InputArgumentPath(preprocess_task.outputs['y_train']),
+        dsl.InputArgumentPath(preprocess_task.outputs['y_test'])
+    ).after(preprocess_task)
 
 client = kfp.Client()
 #Specify pipeline argument values
