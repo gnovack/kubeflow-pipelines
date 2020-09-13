@@ -21,6 +21,6 @@ jobs:
     - name: Push the Preprocess image
       run: docker push gnovack/boston_pipeline_preprocessing
     - name: Build the Train image
-      run: docker build ./train/preprocess_data --tag gnovack/boston_pipeline_train
+      run: docker build ./boston_housing/train --tag gnovack/boston_pipeline_train
     - name: Push the Train image
       run: docker push gnovack/boston_pipeline_train
