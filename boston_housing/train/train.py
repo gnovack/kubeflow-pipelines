@@ -1,4 +1,5 @@
 import argparse
+import joblib
 import numpy as np
 from sklearn.linear_model import SGDRegressor
 
@@ -8,7 +9,8 @@ def train_model(x_train, y_train):
 
     model = SGDRegressor()
     model.fit(x_train_data, y_train_data)
-    print(model.coef_)
+    
+    joblib.dump(model, 'model.pkl')
 
 
 if __name__ == '__main__':
