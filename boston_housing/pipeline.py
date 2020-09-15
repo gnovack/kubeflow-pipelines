@@ -41,11 +41,11 @@ def test_op(x_test, y_test, model):
         ]
     )
 
-def log_model_op(model):
+def deploy_model_op(model):
 
     return dsl.ContainerOp(
-        name='Log Model',
-        image='gnovack/boston_pipeline_log_model:latest',
+        name='Deploy Model',
+        image='gnovack/boston_pipeline_deploy_model:latest',
         arguments=[
             '--model', model
         ]
@@ -69,7 +69,7 @@ def boston_pipeline():
         dsl.InputArgumentPath(_train_op.outputs['model'])
     ).after(_train_op)
 
-    log_model_op(
+    deploy_model_op(
         dsl.InputArgumentPath(_train_op.outputs['model'])
     ).after(_test_op)
 
