@@ -29,6 +29,18 @@ def train_op(x_train, y_train):
         }
     )
 
+def test_op(x_test, y_test, model):
+
+    return dsl.ContainerOp(
+        name='Test Model',
+        image='gnovack/boston_pipeline_test:latest',
+        arguments=[
+            '--x_test', x_test,
+            '--y_test', y_test,
+            '--model', model
+        ]
+    )
+
 @dsl.pipeline(
    name='Boston Housing Pipeline',
    description='A toy pipeline that performs arithmetic calculations.'
@@ -36,10 +48,16 @@ def train_op(x_train, y_train):
 def boston_pipeline():
     _preprocess_op = preprocess_op()
     
-    train_op(
+    _train_op = train_op(
         dsl.InputArgumentPath(_preprocess_op.outputs['x_train']),
         dsl.InputArgumentPath(_preprocess_op.outputs['y_train'])
     ).after(_preprocess_op)
+
+    _test_op = test_op(
+        dsl.InputArgumentPath(_preprocess_op.outputs['x_test']),
+        dsl.InputArgumentPath(_preprocess_op.outputs['y_test']),
+        dsl.InputArgumentPath(_train_op.outputs['model'])
+    )
 
 client = kfp.Client()
 client.create_run_from_pipeline_func(boston_pipeline, arguments={})

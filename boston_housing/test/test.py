@@ -17,4 +17,4 @@ if __name__ == '__main__':
     parser.add_argument('--y_test')
     parser.add_argument('--model')
     args = parser.parse_args()
-    test_model(args.x_test, args.y_test, args.model_path)
+    test_model(args.x_test, args.y_test, args.model)
