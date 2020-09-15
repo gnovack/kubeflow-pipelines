@@ -41,9 +41,19 @@ def test_op(x_test, y_test, model):
         ]
     )
 
+def log_model_op(model):
+
+    return dsl.ContainerOp(
+        name='Log Model',
+        image='gnovack/boston_pipeline_log_model:latest',
+        arguments=[
+            '--model', model
+        ]
+    )
+
 @dsl.pipeline(
    name='Boston Housing Pipeline',
-   description='A toy pipeline that performs arithmetic calculations.'
+   description='An example pipeline that trains and logs a regression model.'
 )
 def boston_pipeline():
     _preprocess_op = preprocess_op()
@@ -58,6 +68,10 @@ def boston_pipeline():
         dsl.InputArgumentPath(_preprocess_op.outputs['y_test']),
         dsl.InputArgumentPath(_train_op.outputs['model'])
     ).after(_train_op)
+
+    log_model_op(
+        dsl.InputArgumentPath(_train_op.outputs['model'])
+    ).after(_test_op)
 
 client = kfp.Client()
 client.create_run_from_pipeline_func(boston_pipeline, arguments={})
