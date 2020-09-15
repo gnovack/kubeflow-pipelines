@@ -15,10 +15,7 @@ def preprocess_op():
         }
     )
 
-def train_op(
-    x_train,
-    y_train
-):
+def train_op(x_train, y_train):
 
     return dsl.ContainerOp(
         name='Train Model',
@@ -26,7 +23,10 @@ def train_op(
         arguments=[
             '--x_train', x_train,
             '--y_train', y_train
-        ]
+        ],
+        file_outputs={
+            'model': '/app/model.pkl'
+        }
     )
 
 @dsl.pipeline(
