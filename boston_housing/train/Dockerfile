@@ -4,6 +4,6 @@ WORKDIR /app
 
 RUN pip install -U scikit-learn numpy
 
-COPY test.py ./test.py
+COPY train.py ./train.py
 
-ENTRYPOINT [ "python", "test.py" ]
+ENTRYPOINT [ "python", "train.py" ]
