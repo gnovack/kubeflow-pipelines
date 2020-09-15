@@ -8,7 +8,7 @@ def test_model(x_test, y_test, model_path):
 
     model = joblib.load(model_path)
     score = model.score(x_test_data, y_test_data)
-    print(score)
+    print(f'R^2 score: {score}')
 
 
 if __name__ == '__main__':
