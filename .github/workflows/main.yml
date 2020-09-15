@@ -28,3 +28,7 @@ jobs:
       run: docker build ./boston_housing/test --tag gnovack/boston_pipeline_test
     - name: Push the Test image
       run: docker push gnovack/boston_pipeline_test
+    - name: Build the Log Model image
+      run: docker build ./boston_housing/log_model --tag gnovack/boston_pipeline_log_model
+    - name: Push the Log Model image
+      run: docker push gnovack/boston_pipeline_log_model
