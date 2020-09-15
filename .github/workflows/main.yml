@@ -24,3 +24,7 @@ jobs:
       run: docker build ./boston_housing/train --tag gnovack/boston_pipeline_train
     - name: Push the Train image
       run: docker push gnovack/boston_pipeline_train
+    - name: Build the Test image
+      run: docker build ./boston_housing/test --tag gnovack/boston_pipeline_test
+    - name: Push the Test image
+      run: docker push gnovack/boston_pipeline_test
