@@ -57,7 +57,7 @@ def boston_pipeline():
         dsl.InputArgumentPath(_preprocess_op.outputs['x_test']),
         dsl.InputArgumentPath(_preprocess_op.outputs['y_test']),
         dsl.InputArgumentPath(_train_op.outputs['model'])
-    )
+    ).after(_train_op)
 
 client = kfp.Client()
 client.create_run_from_pipeline_func(boston_pipeline, arguments={})
